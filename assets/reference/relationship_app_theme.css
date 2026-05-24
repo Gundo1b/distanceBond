@@ -1,0 +1,108 @@
+/* =========================
+   GOOGLE FONTS
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+:root{
+  --primary-pink: #FF5C93;
+  --fire-red: #FF4B4B;
+  --soft-purple: #6B4EFF;
+  --midnight-bg: #0F1028;
+  --peach-glow: #FFB199;
+  --white-soft: #F5F5F5;
+  --card-dark: #1A1B3A;
+  --light-pink: #FFD6E5;
+  --heart-glow: rgba(255, 92, 147, 0.5);
+
+  --main-gradient: linear-gradient(
+      180deg,
+      #6B4EFF 0%,
+      #FF5C93 100%
+  );
+}
+
+body{
+    margin:0;
+    padding:0;
+    background: var(--midnight-bg);
+    font-family: 'Poppins', sans-serif;
+    color: var(--white-soft);
+}
+
+.app-container{
+    min-height:100vh;
+    background: var(--main-gradient);
+    padding:20px;
+}
+
+.card{
+    background:#1A1B3A;
+    border-radius:25px;
+    padding:20px;
+    box-shadow:
+        0 0 20px rgba(0,0,0,0.2),
+        0 0 25px rgba(255,92,147,0.15);
+}
+
+.btn-love{
+    background: var(--primary-pink);
+    color:white;
+    border:none;
+    padding:14px 28px;
+    border-radius:50px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s ease;
+    box-shadow:
+        0 0 20px rgba(255,92,147,0.5);
+}
+
+.btn-fire{
+    background: var(--fire-red);
+    box-shadow:
+        0 0 25px rgba(255,75,75,0.7);
+}
+
+.title{
+    font-family:'Outfit', sans-serif;
+    font-size:32px;
+    font-weight:700;
+}
+
+.subtitle{
+    font-family:'Nunito', sans-serif;
+    font-size:18px;
+    opacity:0.8;
+}
+
+.chat-bubble{
+    background:#26284F;
+    padding:14px;
+    border-radius:20px;
+    margin-bottom:10px;
+    max-width:75%;
+}
+
+.chat-bubble.me{
+    background: var(--primary-pink);
+    margin-left:auto;
+}
+
+.avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    border:3px solid var(--primary-pink);
+    object-fit:cover;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:#17182F;
+    display:flex;
+    justify-content:space-around;
+    padding:16px 0;
+}
