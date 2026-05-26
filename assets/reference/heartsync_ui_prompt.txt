@@ -1,0 +1,151 @@
+Create a modern mobile app UI/UX design for a long-distance relationship app called “HeartSync”.
+
+STYLE:
+- Romantic neon aesthetic
+- Purple, pink, and dark midnight gradients
+- Soft glow effects
+- Rounded corners
+- Cute animated style
+- Cozy night vibe
+- Modern Gen Z UI
+- Similar quality to Discord, Snapchat, and Duolingo
+
+MAIN COLORS:
+- Pink: #FF5C93
+- Red: #FF4B4B
+- Purple: #6B4EFF
+- Dark Background: #0F1028
+- Peach Glow: #FFB199
+
+FONTS:
+- Poppins
+- Nunito
+- Outfit
+
+Create the following app screens in FULL mobile UI design format:
+
+1. SPLASH SCREEN
+- Cute animated cat mascot hugging glowing fire heart
+- App logo “HeartSync”
+- Romantic glow particles
+- Soft animated floating hearts
+- Gradient background
+- “Stay connected no matter the distance”
+
+2. LOGIN SCREEN
+- Couple illustration
+- Email input
+- Password input
+- Neon glow login button
+- Forgot password
+- Continue with Google
+- Continue with Apple
+- Link to Register page
+
+3. REGISTER SCREEN
+- Full Name
+- Email
+- Password
+- Confirm Password
+- Date of Birth
+- Create account button
+- Partner invite code option
+- Upload profile picture
+
+4. HOME DASHBOARD
+- Couple streak counter
+- Partner online status
+- Relationship level XP bar
+- Daily challenge card
+- Quick access mini-games
+- Love messages section
+- Animated mascot pet
+
+5. CHAT SCREEN
+- Voice notes
+- Video call button
+- Stickers
+- Animated hearts reactions
+- Cute typing animation
+- Shared media section
+
+6. DAILY CHALLENGE SCREEN
+- Challenge card
+- Progress tracker
+- Timer countdown
+- Reward XP
+- Complete Together button
+
+7. MINI GAMES SCREEN
+- How Well Do You Know Me?
+- Couple Trivia
+- Truth or Distance
+- Spin The Love Wheel
+- Reaction Challenge
+
+8. PROFILE SCREEN
+- Couple avatars
+- Relationship stats
+- Streak history
+- Shared memories
+- Favorite moments timeline
+- App theme settings
+
+9. LONG DISTANCE MAP SCREEN
+- Two locations connected with glowing heart line
+- Distance tracker
+- Airplane animation
+- Time difference display
+- Missing You message
+
+10. VIRTUAL PET SCREEN
+- Cute animated pet system
+- Happy when streak active
+- Sad when inactive
+- Feed/interact buttons
+- Level up animations
+
+11. NOTIFICATION SCREEN
+- Your partner sent love ❤️
+- Daily challenge ready
+- Your streak is in danger
+
+12. SETTINGS SCREEN
+- Dark mode
+- Notification settings
+- Privacy
+- Subscription
+- Account management
+- Relationship anniversary date
+
+13. PREMIUM SUBSCRIPTION SCREEN
+- Unlimited games
+- AI relationship coach
+- Advanced themes
+- Video memories
+- Couple analytics
+
+14. ONBOARDING SCREENS
+Page 1:
+Stay connected anywhere
+
+Page 2:
+Play games together
+
+Page 3:
+Grow your relationship
+
+Page 4:
+Never feel far apart
+
+GENERAL UI REQUIREMENTS:
+- Mobile-first design
+- iPhone 15 Pro proportions
+- Modern app store quality
+- Soft shadows
+- Glassmorphism
+- Floating particles
+- Animated glowing hearts
+- Cute mascot integration
+- Premium romantic aesthetic
+- Highly polished interface
