@@ -80,7 +80,7 @@ export default function Login() {
               <Image
                 source={require("./logog.png")}
                 style={styles.logo}
-                resizeMode="contain"
+                resizeMode="cover"
               />
               <Text style={styles.subtitle}>Sign in to sync with your partner</Text>
             </View>
@@ -111,9 +111,11 @@ export default function Login() {
                   style={styles.input}
                   editable={!loading}
                 />
-                <TouchableOpacity style={styles.forgotPassword} disabled={loading}>
-                  <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-                </TouchableOpacity>
+                <Link href="/forgot-password" asChild>
+                  <TouchableOpacity style={styles.forgotPassword} disabled={loading}>
+                    <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+                  </TouchableOpacity>
+                </Link>
               </View>
 
               <TouchableOpacity 
@@ -193,9 +195,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   logo: {
-    width: 360,
-    height: 120,
-    marginBottom: 8,
+    width: 280,
+    height: 220,
+    marginBottom: 12,
   },
   subtitle: {
     fontSize: 16,

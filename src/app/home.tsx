@@ -10,7 +10,71 @@ import {
   Image,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { SymbolView } from "expo-symbols";
 import { supabase } from "../lib/supabase";
+
+const tabs = [
+  {
+    label: "Home",
+    icon: { ios: "house.fill", android: "home_filled", web: "home" },
+    fallback: "H",
+  },
+  {
+    label: "Challenges",
+    icon: { ios: "trophy.fill", android: "trophy", web: "trophy" },
+    fallback: "C",
+  },
+  {
+    label: "Games",
+    icon: {
+      ios: "gamecontroller.fill",
+      android: "sports_esports",
+      web: "sports_esports",
+    },
+    fallback: "G",
+  },
+  {
+    label: "Pet",
+    icon: { ios: "pawprint.fill", android: "pets", web: "pets" },
+    fallback: "P",
+  },
+  {
+    label: "Profile",
+    icon: {
+      ios: "person.crop.circle.fill",
+      android: "person",
+      web: "person",
+    },
+    fallback: "P",
+  },
+] as const;
+
+const quickTabs = [
+  {
+    label: "Game",
+    icon: {
+      ios: "gamecontroller.fill",
+      android: "sports_esports",
+      web: "sports_esports",
+    },
+    fallback: "G",
+  },
+  {
+    label: "Chat",
+    icon: { ios: "bubble.left.and.bubble.right.fill", android: "chat", web: "chat" },
+    fallback: "C",
+  },
+  {
+    label: "Call",
+    icon: { ios: "phone.fill", android: "call", web: "call" },
+    fallback: "C",
+  },
+  {
+    label: "Date",
+    icon: { ios: "calendar", android: "calendar_month", web: "calendar_month" },
+    fallback: "D",
+  },
+] as const;
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -55,11 +119,6 @@ export default function Home() {
     }
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.replace("/welcome");
-  };
-
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -91,9 +150,57 @@ export default function Home() {
             {/* Main content is now intentionally empty as per request */}
           </View>
 
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Log Out</Text>
-          </TouchableOpacity>
+          <View style={styles.quickTabBar}>
+            {quickTabs.map((tab) => (
+              <TouchableOpacity
+                key={tab.label}
+                style={styles.quickTabItem}
+                activeOpacity={0.8}
+                onPress={tab.label === "Game" ? () => router.push("/game") : undefined}
+              >
+                <View style={styles.quickIconCircle}>
+                  <SymbolView
+                    name={tab.icon}
+                    size={14}
+                    tintColor="#FFB199"
+                    fallback={<Text style={styles.quickFallbackIcon}>{tab.fallback}</Text>}
+                  />
+                </View>
+                <Text style={styles.quickTabText}>{tab.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <View style={styles.tabBar}>
+            {tabs.map((tab) => {
+              const isActive = tab.label === "Home";
+
+              return (
+                <TouchableOpacity
+                  key={tab.label}
+                  style={[styles.tabItem, isActive && styles.activeTabItem]}
+                  activeOpacity={0.8}
+                  onPress={tab.label === "Games" ? () => router.push("/game") : undefined}
+                >
+                  <SymbolView
+                    name={tab.icon}
+                    size={21}
+                    tintColor={isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.55)"}
+                    fallback={
+                      <Text
+                        style={[styles.fallbackIcon, isActive && styles.activeTabText]}
+                      >
+                        {tab.fallback}
+                      </Text>
+                    }
+                  />
+                  <Text style={[styles.tabText, isActive && styles.activeTabText]}>
+                    {tab.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </View>
       </SafeAreaView>
     </View>
@@ -164,14 +271,82 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  logoutButton: {
-    alignSelf: "center",
-    marginBottom: 20,
-    padding: 10,
+  tabBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.06)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 18,
+    marginBottom: 18,
+    padding: 6,
   },
-  logoutText: {
-    color: "rgba(255, 255, 255, 0.3)",
+  quickTabBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+    gap: 6,
+  },
+  quickTabItem: {
+    flex: 1,
+    minHeight: 48,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 12,
+    backgroundColor: "rgba(255, 255, 255, 0.04)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.08)",
+    gap: 3,
+  },
+  quickIconCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255, 177, 153, 0.1)",
+  },
+  quickTabText: {
+    color: "rgba(255, 255, 255, 0.78)",
+    fontSize: 10,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  quickFallbackIcon: {
+    color: "#FFB199",
+    fontSize: 12,
+    fontWeight: "800",
+  },
+  tabItem: {
+    flex: 1,
+    minHeight: 54,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 12,
+    paddingHorizontal: 4,
+    gap: 3,
+  },
+  activeTabItem: {
+    backgroundColor: "#F24986",
+    shadowColor: "#F24986",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  tabText: {
+    color: "rgba(255, 255, 255, 0.55)",
+    fontSize: 10,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  fallbackIcon: {
+    color: "rgba(255, 255, 255, 0.55)",
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: "800",
+  },
+  activeTabText: {
+    color: "#FFFFFF",
   },
 });

@@ -1,6 +1,8 @@
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
+import * as Linking from "expo-linking";
 import { useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Image,
   KeyboardAvoidingView,
@@ -12,63 +14,44 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ActivityIndicator,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { supabase } from "../lib/supabase";
 
-export default function Register() {
-  const [fullName, setFullName] = useState("");
+export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [dob, setDob] = useState("");
-  const [inviteCode, setInviteCode] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
-  const handleRegister = async () => {
-    if (!fullName || !email || !password) {
-      Alert.alert("Error", "Please fill in the required fields");
+  const handleResetEmail = async () => {
+    const trimmedEmail = email.trim();
+
+    if (!trimmedEmail) {
+      Alert.alert("Error", "Please enter your email address");
       return;
     }
 
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: fullName,
-          date_of_birth: dob,
-          invite_code: inviteCode,
-        },
-      },
+    const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
+      redirectTo: Linking.createURL("/reset-password"),
     });
+    setLoading(false);
 
     if (error) {
       Alert.alert("Error", error.message);
-      setLoading(false);
       return;
     }
 
-    if (data.session) {
-      Alert.alert("Success", "Account created! Welcome to HeartSync.");
-      router.replace("/home");
-    } else {
-      Alert.alert(
-        "Verification Required", 
-        "Registration successful! We've sent a link to your email. Please verify your account before logging in.",
-        [{ text: "OK", onPress: () => router.replace("/login") }]
-      );
-    }
-    setLoading(false);
+    setEmailSent(true);
+    Alert.alert(
+      "Check Your Email",
+      "We sent a password reset link to your inbox.",
+    );
   };
 
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      
-      {/* Background Decor */}
       <View style={styles.topGlow} />
 
       <SafeAreaView style={styles.safeArea}>
@@ -86,90 +69,50 @@ export default function Register() {
                 style={styles.logo}
                 resizeMode="cover"
               />
-              <Text style={styles.subtitle}>Start your journey together</Text>
+              <Text style={styles.subtitle}>Reset your HeartSync password</Text>
             </View>
 
             <View style={styles.form}>
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Full Name *</Text>
-                <TextInput
-                  placeholder="Enter your full name"
-                  placeholderTextColor="rgba(255, 255, 255, 0.4)"
-                  value={fullName}
-                  onChangeText={setFullName}
-                  style={styles.input}
-                  editable={!loading}
-                />
-              </View>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Email *</Text>
+                <Text style={styles.label}>Email</Text>
                 <TextInput
                   placeholder="Enter your email"
                   placeholderTextColor="rgba(255, 255, 255, 0.4)"
                   value={email}
-                  onChangeText={setEmail}
+                  onChangeText={(value) => {
+                    setEmail(value);
+                    setEmailSent(false);
+                  }}
                   autoCapitalize="none"
+                  autoComplete="email"
                   keyboardType="email-address"
                   style={styles.input}
                   editable={!loading}
                 />
               </View>
 
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Password *</Text>
-                <TextInput
-                  placeholder="Create a password"
-                  placeholderTextColor="rgba(255, 255, 255, 0.4)"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry
-                  style={styles.input}
-                  editable={!loading}
-                />
-              </View>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Date of Birth</Text>
-                <TextInput
-                  placeholder="DD/MM/YYYY"
-                  placeholderTextColor="rgba(255, 255, 255, 0.4)"
-                  value={dob}
-                  onChangeText={setDob}
-                  style={styles.input}
-                  editable={!loading}
-                />
-              </View>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Partner Invite Code (Optional)</Text>
-                <TextInput
-                  placeholder="Enter code if you have one"
-                  placeholderTextColor="rgba(255, 255, 255, 0.4)"
-                  value={inviteCode}
-                  onChangeText={setInviteCode}
-                  autoCapitalize="characters"
-                  style={styles.input}
-                  editable={!loading}
-                />
-              </View>
-
-              <TouchableOpacity 
-                style={[styles.button, loading && styles.buttonDisabled]} 
-                onPress={handleRegister}
+              <TouchableOpacity
+                style={[styles.button, loading && styles.buttonDisabled]}
+                onPress={handleResetEmail}
                 activeOpacity={0.8}
                 disabled={loading}
               >
                 {loading ? (
                   <ActivityIndicator color="#FFFFFF" />
                 ) : (
-                  <Text style={styles.buttonText}>Create Account</Text>
+                  <Text style={styles.buttonText}>Send Reset Link</Text>
                 )}
               </TouchableOpacity>
+
+              {emailSent && (
+                <Text style={styles.successText}>
+                  Check your email for the password reset link.
+                </Text>
+              )}
             </View>
 
             <View style={styles.footer}>
-              <Text style={styles.footerText}>Already have an account? </Text>
+              <Text style={styles.footerText}>Remembered it? </Text>
               <Link href="/login" asChild>
                 <TouchableOpacity disabled={loading}>
                   <Text style={styles.footerLink}>Sign In</Text>
@@ -191,12 +134,12 @@ const styles = StyleSheet.create({
   topGlow: {
     position: "absolute",
     top: -100,
-    left: -100,
+    right: -100,
     width: 300,
     height: 300,
     borderRadius: 150,
     backgroundColor: "#F24986",
-    opacity: 0.12,
+    opacity: 0.15,
   },
   flex: {
     flex: 1,
@@ -207,12 +150,13 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: 28,
-    paddingTop: 20,
     paddingBottom: 40,
+    justifyContent: "center",
   },
   header: {
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: 40,
+    marginTop: 20,
   },
   logo: {
     width: 280,
@@ -220,19 +164,20 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 16,
     color: "rgba(255, 255, 255, 0.6)",
-    marginTop: 4,
+    marginTop: 8,
+    textAlign: "center",
   },
   form: {
     width: "100%",
   },
   inputContainer: {
-    marginBottom: 18,
+    marginBottom: 20,
   },
   label: {
     color: "rgba(255, 255, 255, 0.8)",
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: "600",
     marginBottom: 8,
     marginLeft: 4,
@@ -243,16 +188,16 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255, 255, 255, 0.1)",
     borderRadius: 16,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 14,
     color: "#FFFFFF",
-    fontSize: 15,
+    fontSize: 16,
   },
   button: {
     backgroundColor: "#F24986",
     paddingVertical: 16,
     borderRadius: 16,
     alignItems: "center",
-    marginTop: 12,
+    marginTop: 10,
     shadowColor: "#F24986",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.3,
@@ -269,10 +214,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
   },
+  successText: {
+    color: "#FFB199",
+    fontSize: 14,
+    lineHeight: 20,
+    marginTop: 16,
+    textAlign: "center",
+  },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 32,
+    marginTop: 40,
   },
   footerText: {
     color: "rgba(255, 255, 255, 0.6)",
