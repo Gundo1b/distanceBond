@@ -1,6 +1,8 @@
 import { Link, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Image,
   KeyboardAvoidingView,
@@ -12,9 +14,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ActivityIndicator,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import { supabase } from "../lib/supabase";
 
 export default function Login() {
@@ -22,26 +22,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    let mounted = true;
-
-    const redirectIfLoggedIn = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (mounted && session) {
-        router.replace("/home");
-      }
-    };
-
-    redirectIfLoggedIn();
-
-    return () => {
-      mounted = false;
-    };
-  }, [router]);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -102,6 +82,7 @@ export default function Login() {
                 style={styles.logo}
                 resizeMode="cover"
               />
+              
               <Text style={styles.subtitle}>Sign in to sync with your partner</Text>
             </View>
 
@@ -131,11 +112,9 @@ export default function Login() {
                   style={styles.input}
                   editable={!loading}
                 />
-                <Link href="/forgot-password" asChild>
-                  <TouchableOpacity style={styles.forgotPassword} disabled={loading}>
-                    <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-                  </TouchableOpacity>
-                </Link>
+                <TouchableOpacity style={styles.forgotPassword} disabled={loading}>
+                  <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+                </TouchableOpacity>
               </View>
 
               <TouchableOpacity 
