@@ -34,6 +34,22 @@
             "imageWidth": 76
           }
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow distanceBond to access your photos and videos so you can answer dares.",
+          "cameraPermission": "Allow distanceBond to access your camera so you can send photos and videos.",
+          "microphonePermission": "Allow distanceBond to access your microphone for videos and voice notes."
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Allow distanceBond to record voice notes for your partner.",
+          "enableBackgroundRecording": false,
+          "enableBackgroundPlayback": false
+        }
       ]
     ],
     "experiments": {

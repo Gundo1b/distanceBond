@@ -8,7 +8,9 @@ export default function RootLayout() {
       <Stack.Screen name="forgot-password"/>
       <Stack.Screen name="reset-password"/>
       <Stack.Screen name="register"/>
+      <Stack.Screen name="connect"/>
       <Stack.Screen name="home"/>
+      <Stack.Screen name="chat"/>
       <Stack.Screen name="game"/>
       <Stack.Screen name="how-well-know-me"/>
       <Stack.Screen name="welcome"/>

@@ -156,7 +156,13 @@ export default function Home() {
                 key={tab.label}
                 style={styles.quickTabItem}
                 activeOpacity={0.8}
-                onPress={tab.label === "Game" ? () => router.push("/game") : undefined}
+                onPress={
+                  tab.label === "Game"
+                    ? () => router.push("/game")
+                    : tab.label === "Chat"
+                      ? () => router.push("/chat")
+                      : undefined
+                }
               >
                 <View style={styles.quickIconCircle}>
                   <SymbolView
